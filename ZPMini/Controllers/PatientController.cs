@@ -15,12 +15,14 @@ namespace ZPMini.API.Controllers
         private readonly ILogger<PatientController> _logger;
         private readonly PatientLogic _patientLogic;
         private readonly TransferLogic _transferLogic;
+        private readonly FacilityLogic _facilityLogic;
 
-        public PatientController(ILogger<PatientController> logger, PatientLogic patientLogic, TransferLogic transferLogic)
+        public PatientController(ILogger<PatientController> logger, PatientLogic patientLogic, TransferLogic transferLogic, FacilityLogic facilityLogic)
         {
             _logger = logger;
             _patientLogic = patientLogic;
             _transferLogic = transferLogic;
+            _facilityLogic = facilityLogic;
         }
 
         [HttpPost("/")]
@@ -60,10 +62,30 @@ namespace ZPMini.API.Controllers
         [HttpGet("/all")]
         public IEnumerable<Patient> All()
         {
-            _logger.LogInformation("[ALL] All patients have been requested");
+            _logger.LogInformation("[All] All patients have been requested");
             return _patientLogic.GetAll();
         }
 
+        [HttpPost("/assign")]
+        public StatusCodeResult AssignPatient(PatientAssignmentViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if(model.PatientId != Guid.Empty && model.FacilityId != Guid.Empty)
+                {
+                    Patient patient = patientLogic.GetPatientById(model.PatientId);
+                    if(patient != null)
+                    {
+                        if (_facilityLogic.AssignPatient(patient, model.FacilityId))
+                        {
+                            _logger.LogInformation("[assign] A patient has been assigned to a facility");
+                            return StatusCode(200);
+                        }
+                } 
+            }
+            _logger.LogInformation("[All] An invalid assignment to a facility has been made");
+            return StatusCode(400);
+        }
 
         [HttpPost("/transfer/")]
         public StatusCodeResult TransferPatient(PatientTransferViewModel model)

@@ -21,5 +21,17 @@ namespace ZPMini.Logic
         {
             return _healthFacilityRepository.Get(facilityId);
         }
+
+        public bool AssignPatient(Patient patient, Guid facilityId)
+        {
+            HealthFacility facility =  _healthFacilityRepository.Get(facilityId);
+            if(facility != null)
+            {
+                facility.Patients.Add(patient);
+                _healthFacilityRepository.Update(facility);
+                return true;
+            }
+            return false;
+        }
     }
 }
