@@ -57,6 +57,21 @@ namespace ZPMini.Data.MockRepository
             return mockHealthFacilities;
         }
 
+        public IEnumerable<HealthFacility> GetAllWithProperties(Guid facilityId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<HealthFacility> GetAllWithProperties()
+        {
+            throw new NotImplementedException();
+        }
+
+        public HealthFacility GetWithProperties(Guid facilityId)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(HealthFacility entity)
         {
             throw new NotImplementedException();

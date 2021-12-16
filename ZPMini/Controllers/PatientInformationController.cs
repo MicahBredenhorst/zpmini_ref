@@ -45,6 +45,7 @@ namespace ZPMini.API.Controllers
         [HttpPost("/patientinformation/")]
         public StatusCodeResult Post(PatientInformationViewModel model)
         {
+            // FIXME: Json error on post for some reason
             if (ModelState.IsValid)
             {
                 // TODO: Add modelmapper [MN]
@@ -54,9 +55,17 @@ namespace ZPMini.API.Controllers
                     CreationDate = DateTime.Now,
                     Description = model.Description,
                     Title = model.Title,
+                    PatientId = model.PatientId,
                 };
 
+                if(model.FacilityId != Guid.Empty)
+                {
+                    _logger.LogInformation($"[Post] Ownership has been added for information piece: { patientInformation.Id} to facility: {model.FacilityId}");
+                    _informationOwnershipLogic.AddOwnership(model.FacilityId, patientInformation.Id);
+                }
+
                 _patientInformationLogic.Add(patientInformation);
+
                 _logger.LogInformation($"[Post] New patient information has been added for patient: {patientInformation.Id}");
                 return StatusCode(200);
             }

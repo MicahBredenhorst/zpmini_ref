@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ZPMini.Data.Entity;
 using ZPMini.Data.Interface;
 
@@ -10,8 +8,15 @@ namespace ZPMini.Data.Repository
 {
     public class PatientRepository : BaseRepository<Patient>, IPatientRepository
     {
+        private readonly DefaultContext _context;
         public PatientRepository(DefaultContext context) : base(context)
         {
+            _context = context;
+        }
+
+        public Patient GetAllWithProperties(Guid patientId)
+        {
+            return _context.Patients.Where(p => p.Id == patientId).Include(p => p.PatientInformation).FirstOrDefault();
         }
     }
 }

@@ -25,7 +25,6 @@ namespace ZPMini.Data
             modelBuilder.Entity<PatientInformation>(entity => 
             {
                 entity.HasOne(d => d.Patient).WithMany(p => p.PatientInformation).HasForeignKey(p => p.PatientId);
-                entity.HasMany(d => d.HealthFacility).WithMany(p => PatientInformation);
             });
 
             modelBuilder.Entity<InformationOwnership>(entity =>

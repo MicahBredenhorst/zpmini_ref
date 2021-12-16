@@ -24,6 +24,16 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Mock"
       }
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "publishAllPorts": true,
+      "useSSL": true
+    },
+    "Profile 1": {
+      "commandName": "Docker"
     }
   }
 }

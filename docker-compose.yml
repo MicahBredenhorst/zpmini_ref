@@ -1,16 +1,16 @@
 version: '3.4'
 
 services:
-  zpmini:
-    image: zpmini
+  zpmini.api:
+    image: ${DOCKER_REGISTRY-}zpminiapi
     container_name: zpmini
-    build: .
     ports:
       - 80:80
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Develop
+    build:
+      context: .
+      dockerfile: ZPMini/Dockerfile
     depends_on:
-      - db
+        - db
   db:
     image: "mcr.microsoft.com/mssql/server"
     environment:

@@ -22,7 +22,7 @@ namespace ZPMini.Logic
 
         public Patient GetPatientById(Guid patientId)
         {
-            return _patientRepository.Get(patientId);
+            return _patientRepository.GetAllWithProperties(patientId);
         }
 
         public void AddPatient(Patient patient)

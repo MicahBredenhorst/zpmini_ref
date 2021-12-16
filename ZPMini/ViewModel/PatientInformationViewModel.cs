@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ZPMini.API.ViewModel
 {
@@ -10,6 +11,10 @@ namespace ZPMini.API.ViewModel
         [Required]
         [StringLength(1000)]
         public string Description { get; set; }
+        [Required]
+        public Guid PatientId { get; set; }
+
+        public Guid FacilityId { get; set; }
 
     }
 }

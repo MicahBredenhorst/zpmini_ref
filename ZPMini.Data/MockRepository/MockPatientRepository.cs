@@ -72,6 +72,11 @@ namespace ZPMini.Data.MockRepository
             return mockPatientData;
         }
 
+        public Patient GetAllWithProperties(Guid patientId)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(Patient entity)
         {
             throw new NotImplementedException();
