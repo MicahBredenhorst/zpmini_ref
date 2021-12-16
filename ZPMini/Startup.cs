@@ -60,6 +60,12 @@ namespace ZPMini
                 });
             }
 
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetService<DefaultContext>();
+                dbContext.Database.EnsureCreated();
+            }
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
