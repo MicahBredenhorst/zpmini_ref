@@ -13,5 +13,6 @@ namespace ZPMini.API.ViewModel
         public string LastName { get; set; }
         [Required]
         public DateTime DateOfBrith { get; set; }
+
     }
 }

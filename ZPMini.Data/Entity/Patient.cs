@@ -13,6 +13,7 @@ namespace ZPMini.Data.Entity
         public string LastName { get; set; }
         [Required]
         public DateTime DateOfBrith { get; set; }
+
         public virtual ICollection<PatientInformation> PatientInformation { get; set; }
     }
 }
