@@ -9,6 +9,6 @@ namespace ZPMini.API.ViewModel
         public Guid PatientId { get; set; }
 
         [Required]
-        public Guid facilityId { get; set; }
+        public Guid FacilityId { get; set; }
     }
 }

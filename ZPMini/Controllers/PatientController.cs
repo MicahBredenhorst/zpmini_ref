@@ -73,7 +73,7 @@ namespace ZPMini.API.Controllers
             {
                 if(model.PatientId != Guid.Empty && model.FacilityId != Guid.Empty)
                 {
-                    Patient patient = patientLogic.GetPatientById(model.PatientId);
+                    Patient patient = _patientLogic.GetPatientById(model.PatientId);
                     if(patient != null)
                     {
                         if (_facilityLogic.AssignPatient(patient, model.FacilityId))
@@ -81,6 +81,7 @@ namespace ZPMini.API.Controllers
                             _logger.LogInformation("[assign] A patient has been assigned to a facility");
                             return StatusCode(200);
                         }
+                    }
                 } 
             }
             _logger.LogInformation("[All] An invalid assignment to a facility has been made");
