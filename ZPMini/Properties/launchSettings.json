@@ -17,6 +17,13 @@
     },
     "ZPMini.API": {
       "commandName": "Project"
+    },
+    "Debug MOCK": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Mock"
+      }
     }
   }
 }

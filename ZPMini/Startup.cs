@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using ZPMini.Data;
 using ZPMini.Factory.Factory;
 using ZPMini.Factory.Interface;
+using ZPMini.Logic;
 
 namespace ZPMini
 {
@@ -39,18 +40,23 @@ namespace ZPMini
                 services.AddTransient<IRepositoryFactory, RepositoryFactory>();
             }
 
+            services.AddTransient<PatientLogic>();
+            services.AddTransient<FacilityLogic>();
+            services.AddTransient<InformationOwnershipLogic>();
+            services.AddTransient<PatientInformationLogic>();
+            services.AddTransient<TransferLogic>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || env.EnvironmentName == "Mock")
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(options => 
                 {
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "ZPMini v1");
-                    options.RoutePrefix = string.Empty;
+                    options.RoutePrefix = "swagger";
                 });
             }
 

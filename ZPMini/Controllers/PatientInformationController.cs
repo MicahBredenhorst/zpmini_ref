@@ -10,7 +10,7 @@ using ZPMini.Logic;
 namespace ZPMini.API.Controllers
 {
     [ApiController]
-    [Route("[controller]/[Action]")]
+    [Route("[controller]/[action]")]
     public class PatientInformationController : ControllerBase
     {
         private readonly InformationOwnershipLogic _informationOwnershipLogic;
@@ -26,7 +26,7 @@ namespace ZPMini.API.Controllers
             _patientInformationLogic = patientInformationLogic;
         }
 
-        [HttpGet("/")]
+        [HttpGet("/patientinformation/{patientInformationId}")]
         public ActionResult<PatientInformation> Get(Guid patientInformationId)
         {
             if(patientInformationId != Guid.Empty)
@@ -42,7 +42,7 @@ namespace ZPMini.API.Controllers
             return StatusCode(404);
         }
 
-        [HttpPost("/")]
+        [HttpPost("/patientinformation/")]
         public StatusCodeResult Post(PatientInformationViewModel model)
         {
             if (ModelState.IsValid)
@@ -64,7 +64,7 @@ namespace ZPMini.API.Controllers
             return StatusCode(400);
         }
 
-        [HttpGet("/all")]
+        [HttpGet("/patientinformation/all/{patientId}")]
         public ActionResult<IEnumerable<PatientInformation>> All(Guid patientId)
         {
             if(patientId != Guid.Empty)
@@ -80,7 +80,7 @@ namespace ZPMini.API.Controllers
             return StatusCode(400);
         }
 
-        [HttpGet("/request/")]
+        [HttpGet("/patientinformation/request/{requestId}")]
         public ActionResult<InformationOwnershipRequest> GetRequest(Guid requestId)
         {
             if(requestId != Guid.Empty)
@@ -96,7 +96,7 @@ namespace ZPMini.API.Controllers
             return StatusCode(400);
         }
 
-        [HttpPost("/request/")]
+        [HttpPost("/patientinformation/request/")]
         public StatusCodeResult InformationRequest(PatientInformationRequestViewModel model)
         {
             if(model.OwningFacility != Guid.Empty && model.RequestedFacility != Guid.Empty && model.InformationId != Guid.Empty)
@@ -109,7 +109,7 @@ namespace ZPMini.API.Controllers
             return StatusCode(400);
         }
 
-        [HttpGet("/request/all")]
+        [HttpGet("/patientinformation/request/all")]
         public ActionResult<IEnumerable<InformationOwnershipRequest>> AllRequests(Guid facilityId)
         {
             if(facilityId != Guid.Empty)
@@ -119,7 +119,7 @@ namespace ZPMini.API.Controllers
             return StatusCode(400);
         }
 
-        [HttpPost("/accept/")]
+        [HttpPost("/patientinformation/accept/{requestId}")]
         public StatusCodeResult Accept(Guid requestId)
         {
             if(requestId != Guid.Empty)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ZPMini.Data.Entity;
 using ZPMini.Data.Interface;
+using ZPMini.Factory.Interface;
 
 namespace ZPMini.Logic
 {
@@ -9,11 +10,10 @@ namespace ZPMini.Logic
     {
         private readonly IOwnershipRepository _ownershipRepository;
         private readonly IOwnershipRequestRepository _ownershipRequestRepository;
-        public InformationOwnershipLogic(IOwnershipRepository ownershipRepository, 
-            IOwnershipRequestRepository ownershipRequestRepository)
+        public InformationOwnershipLogic(IRepositoryFactory repositoryFactory)
         {
-            _ownershipRepository = ownershipRepository;
-            _ownershipRequestRepository = ownershipRequestRepository;
+            _ownershipRepository = repositoryFactory.CreateOwnershipRepository();
+            _ownershipRequestRepository = repositoryFactory.CreateOwnershipRequestRepository();
         }
 
         public InformationOwnershipRequest GetOwnershipRequest(Guid requestId)

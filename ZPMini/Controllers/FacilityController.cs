@@ -8,7 +8,7 @@ using ZPMini.Factory.Interface;
 namespace ZPMini.API.Controllers
 {
     [ApiController]
-    [Route("[controller]/[Action]")]
+    [Route("[controller]/[action]")]
     public class FacilityController : ControllerBase
     {
         private readonly IHealthFacilityRepository _healthFacilityRepository;
@@ -20,7 +20,7 @@ namespace ZPMini.API.Controllers
             _logger = logger;
         }
 
-        [HttpGet("/")]
+        [HttpGet("/facility/{facilityId}")]
         public ActionResult<HealthFacility> Get(Guid facilityId)
         {
             if(facilityId != Guid.Empty)

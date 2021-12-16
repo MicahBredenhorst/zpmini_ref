@@ -9,7 +9,7 @@ using System;
 namespace ZPMini.API.Controllers
 {
     [ApiController]
-    [Route("[controller]/[Action]")]
+    [Route("[controller]/[action]")]
     public class PatientController : ControllerBase
     {
         private readonly ILogger<PatientController> _logger;
@@ -25,7 +25,7 @@ namespace ZPMini.API.Controllers
             _facilityLogic = facilityLogic;
         }
 
-        [HttpPost("/")]
+        [HttpPost("/patient/")]
         public StatusCodeResult Post(PatientViewModel model)
         {
             if (ModelState.IsValid)
@@ -46,7 +46,7 @@ namespace ZPMini.API.Controllers
             return StatusCode(400);
         }
 
-        [HttpGet("/")]
+        [HttpGet("/patient/{patientId}")]
         public ActionResult<Patient> Get(Guid patientId)
         {
             if(patientId != Guid.Empty)
@@ -59,14 +59,14 @@ namespace ZPMini.API.Controllers
             return StatusCode(404);
         }
 
-        [HttpGet("/all")]
+        [HttpGet("/patient/all")]
         public IEnumerable<Patient> All()
         {
             _logger.LogInformation("[All] All patients have been requested");
             return _patientLogic.GetAll();
         }
 
-        [HttpPost("/assign")]
+        [HttpPost("/patient/assign")]
         public StatusCodeResult AssignPatient(PatientAssignmentViewModel model)
         {
             if (ModelState.IsValid)
@@ -88,7 +88,7 @@ namespace ZPMini.API.Controllers
             return StatusCode(400);
         }
 
-        [HttpPost("/transfer/")]
+        [HttpPost("/patient/transfer/")]
         public StatusCodeResult TransferPatient(PatientTransferViewModel model)
         {
             if (ModelState.IsValid)
