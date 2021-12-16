@@ -14,11 +14,12 @@ namespace ZPMini.Logic
 
         public TransferLogic(PatientLogic patientLogic, 
             InformationOwnershipLogic informationOwnershipLogic, 
-            FacilityLogic facilityLogic)
+            FacilityLogic facilityLogic, ILogger<TransferLogic> logger)
         {
             _patientLogic = patientLogic;
             _informationOwnershipLogic = informationOwnershipLogic;
             _facilityLogic = facilityLogic; 
+            _logger = logger;
         }
 
         public bool TransferPatient(Guid patientId, Guid receivingFacilityId)

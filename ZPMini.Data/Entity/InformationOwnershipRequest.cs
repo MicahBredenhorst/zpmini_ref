@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZPMini.Data.Entity
 {
-    public class InformationOwnershipRequest
+    public class InformationOwnershipRequest : BaseEntity
     {
         [Required]
         public Guid OwnerId { get; set; }
@@ -12,9 +12,9 @@ namespace ZPMini.Data.Entity
         public Guid InformationId { get; set; }
 
         [Required]
-        public Guid FacilityId { get; set; }
+        public Guid ReceiverId { get; set; }
 
-        [ForeignKey(nameof(FacilityId))]
+        [ForeignKey(nameof(ReceiverId))]
         public virtual  HealthFacility HealthFacility { get; set; }
 
     }
