@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ZPMini.API.DataAnnotation;
 using ZPMini.API.ViewModel;
 using ZPMini.Data.Entity;
 using ZPMini.Logic;
@@ -23,13 +24,13 @@ namespace ZPMini.API.Controllers
         }
 
         [HttpGet("/facility/{facilityId}")]
-        public ActionResult<HealthFacility> Get(Guid facilityId)
+        public ActionResult<HealthFacility> Get([GuidNotEmpty] Guid facilityId)
         {
-            if(facilityId != Guid.Empty)
-            {
-                _logger.LogInformation($"[Get] Information has been requested for facility: {facilityId}");
-                return _facilityLogic.GetHealthFacility(facilityId);
-            }
+
+            _logger.LogInformation($"[Get] Information has been requested for facility: {facilityId}");
+            var facility = _facilityLogic.GetHealthFacility(facilityId);
+            if (facility != null)
+                return facility;
             _logger.LogInformation($"[Get] Information has been requested for invalid facility: {facilityId}");
             return StatusCode(400);
         }
@@ -42,9 +43,9 @@ namespace ZPMini.API.Controllers
         }
 
         [HttpDelete("/facility/{facilityId}")]
-        public StatusCodeResult Delete(Guid facilityId)
+        public StatusCodeResult Delete([GuidNotEmpty] Guid facilityId)
         {
-            if(facilityId != Guid.Empty && _facilityLogic.GetHealthFacility(facilityId) != null)
+            if(_facilityLogic.GetHealthFacility(facilityId) != null)
             {
                 _facilityLogic.DeleteHealthFacility(facilityId);
                 _logger.LogInformation($"[Delete] A request to delete facility: {facilityId} has been made");

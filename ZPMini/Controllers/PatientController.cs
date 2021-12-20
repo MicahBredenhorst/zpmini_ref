@@ -5,6 +5,7 @@ using ZPMini.API.ViewModel;
 using ZPMini.Data.Entity;
 using ZPMini.Logic;
 using System;
+using ZPMini.API.DataAnnotation;
 
 namespace ZPMini.API.Controllers
 {
@@ -30,7 +31,6 @@ namespace ZPMini.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                // TODO: replace with model mapper [M.N]
                 Patient patient = new()
                 {
                     Id = Guid.NewGuid(),
@@ -47,16 +47,16 @@ namespace ZPMini.API.Controllers
         }
 
         [HttpGet("/patient/{patientId}")]
-        public ActionResult<Patient> Get(Guid patientId)
+        public ActionResult<Patient> Get([GuidNotEmpty]Guid patientId)
         {
-            if(patientId != Guid.Empty)
+            _logger.LogInformation($"[GET] A patient with id {patientId} has been requested");
+            Patient patient = _patientLogic.GetPatientById(patientId);
+            if (patient != null)
             {
-                _logger.LogInformation($"[GET] A patient with id {patientId} has been requested");
-                Patient patient = _patientLogic.GetPatientById(patientId);
-                if (patient != null)
-                    return patient;
+                return patient;
             }
-            return StatusCode(404);
+            _logger.LogInformation($"[GET] An unknown patient was requesteds");
+            return StatusCode(404, "Patient not found");
         }
 
         [HttpGet("/patient/all")]
@@ -71,18 +71,15 @@ namespace ZPMini.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(model.PatientId != Guid.Empty && model.FacilityId != Guid.Empty)
+                Patient patient = _patientLogic.GetPatientById(model.PatientId);
+                if(patient != null)
                 {
-                    Patient patient = _patientLogic.GetPatientById(model.PatientId);
-                    if(patient != null)
+                    if (_facilityLogic.AssignPatient(patient, model.FacilityId))
                     {
-                        if (_facilityLogic.AssignPatient(patient, model.FacilityId))
-                        {
-                            _logger.LogInformation("[assign] A patient has been assigned to a facility");
-                            return StatusCode(200);
-                        }
+                        _logger.LogInformation("[assign] A patient has been assigned to a facility");
+                        return StatusCode(200);
                     }
-                } 
+                }   
             }
             _logger.LogInformation("[All] An invalid assignment to a facility has been made");
             return StatusCode(400);
