@@ -76,7 +76,7 @@ namespace ZPMini.API.Controllers
                 {
                     if (_facilityLogic.AssignPatient(patient, model.FacilityId))
                     {
-                        _logger.LogInformation("[assign] A patient has been assigned to a facility");
+                        _logger.LogInformation("[AssignPatient] A patient has been assigned to a facility");
                         return StatusCode(200);
                     }
                 }   

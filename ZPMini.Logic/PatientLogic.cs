@@ -9,10 +9,12 @@ namespace ZPMini.Logic
     public class PatientLogic
     {
         private readonly IPatientRepository _patientRepository;
+        private readonly IHealthFacilityPatientRepository _healthFacilityPatientRepository;
 
         public PatientLogic(IRepositoryFactory repositoryFactory)
         {
             _patientRepository = repositoryFactory.CreatePatientRepository();
+            _healthFacilityPatientRepository = repositoryFactory.CreateHealthFacilityPatientRepository();
         }
 
         public IEnumerable<Patient> GetAll()
@@ -29,5 +31,11 @@ namespace ZPMini.Logic
         {
             _patientRepository.Add(patient);
         }
+
+        public bool Exists(Guid patientId)
+        {
+            return _patientRepository.Exists(patientId);
+        }
+
     }
 }

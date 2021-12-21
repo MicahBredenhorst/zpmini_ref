@@ -17,14 +17,17 @@ namespace ZPMini.API.Controllers
         private readonly InformationOwnershipLogic _informationOwnershipLogic;
         private readonly ILogger<PatientInformationController> _logger;
         private readonly PatientInformationLogic _patientInformationLogic;
+        private readonly FacilityLogic _facilityLogic;
 
-        public PatientInformationController(InformationOwnershipLogic informationOwnershipLogic, 
-            ILogger<PatientInformationController> logger, 
+        public PatientInformationController(ILogger<PatientInformationController> logger, 
+            InformationOwnershipLogic informationOwnershipLogic, 
+            FacilityLogic facilityLogic,
             PatientInformationLogic patientInformationLogic)
         {
             _informationOwnershipLogic = informationOwnershipLogic;
-            _logger = logger;
             _patientInformationLogic = patientInformationLogic;
+            _facilityLogic = facilityLogic;
+            _logger = logger;
         }
 
         [HttpGet("/patientinformation/{patientInformationId}")]
@@ -44,10 +47,8 @@ namespace ZPMini.API.Controllers
         [HttpPost("/patientinformation/")]
         public StatusCodeResult Post(PatientInformationViewModel model)
         {
-            // FIXME: Json error on post for some reason
             if (ModelState.IsValid)
             {
-                // TODO: Add modelmapper [MN]
                 PatientInformation patientInformation = new()
                 {
                     Id = Guid.NewGuid(),
@@ -56,15 +57,13 @@ namespace ZPMini.API.Controllers
                     Title = model.Title,
                     PatientId = model.PatientId,
                 };
+                _patientInformationLogic.Add(patientInformation);
 
-                if(model.FacilityId != Guid.Empty)
+                if (model.FacilityId != Guid.Empty && _facilityLogic.Exists(model.FacilityId))
                 {
                     _logger.LogInformation($"[Post] Ownership has been added for information piece: { patientInformation.Id} to facility: {model.FacilityId}");
                     _informationOwnershipLogic.AddOwnership(model.FacilityId, patientInformation.Id);
                 }
-
-                _patientInformationLogic.Add(patientInformation);
-
                 _logger.LogInformation($"[Post] New patient information has been added for patient: {patientInformation.Id}");
                 return StatusCode(200);
             }
@@ -86,6 +85,26 @@ namespace ZPMini.API.Controllers
             return StatusCode(400);
         }
 
+        [HttpPost("/patientinformation/transfer/")]
+        public ActionResult Transfer(InformationTransferViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var receivingFacility = _facilityLogic.GetHealthFacility(model.ReceiverId);
+                if(receivingFacility != null)
+                {
+                    _logger.LogInformation($"[Transfer] An information transfer has been made by the owner for information {model.InformationId} to {model.ReceiverId}");
+                    var information = _patientInformationLogic.GetById(model.InformationId);
+                    if(receivingFacility.HealthFacilityPatients.Any(p => p.PatientId == information.PatientId))
+                    {
+                        _informationOwnershipLogic.AddOwnership(model.ReceiverId, model.InformationId);
+                    }
+                }
+            }
+            _logger.LogInformation($"[Transfer] An invalid information transfer has been made by the owner for information {model.InformationId} to {model.ReceiverId}");
+            return StatusCode(400);
+        }
+
         [HttpGet("/patientinformation/request/{requestId}")]
         public ActionResult<InformationOwnershipRequest> GetRequest([GuidNotEmpty] Guid requestId)
         {
@@ -102,10 +121,12 @@ namespace ZPMini.API.Controllers
         [HttpPost("/patientinformation/request/")]
         public StatusCodeResult InformationRequest(PatientInformationRequestViewModel model)
         {
-
-            _logger.LogInformation($"[InformationRequest] Information has been requested by {model.RequestedFacility} to {model.OwningFacility} for information {model.InformationId}");
-            if (_informationOwnershipLogic.RequestOwnership(model.RequestedFacility, model.OwningFacility, model.InformationId))
-                return StatusCode(200);
+            if(_facilityLogic.Exists(model.RequestedFacility) && _facilityLogic.Exists(model.OwningFacility) && _patientInformationLogic.Exists(model.InformationId))
+            {
+                _logger.LogInformation($"[InformationRequest] Information has been requested by {model.RequestedFacility} to {model.OwningFacility} for information {model.InformationId}");
+                if (_informationOwnershipLogic.RequestOwnership(model.RequestedFacility, model.OwningFacility, model.InformationId))
+                    return StatusCode(200);
+            }
             _logger.LogInformation($"[InformationRequest] The Information has been requested by {model.RequestedFacility} to {model.OwningFacility} for information {model.InformationId} was invalid");
             return StatusCode(400);
         }

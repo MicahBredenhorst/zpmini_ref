@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using ZPMini.Data.Entity;
 using ZPMini.Data.Interface;
 using ZPMini.Factory.Interface;
@@ -12,10 +11,12 @@ namespace ZPMini.Logic
     {
         private readonly ILogger<FacilityLogic> _logger;
         private readonly IHealthFacilityRepository _healthFacilityRepository;
+        private readonly IHealthFacilityPatientRepository _healthFacilityPatientRepository;
         public FacilityLogic(ILogger<FacilityLogic> logger, IRepositoryFactory repositoryFactory)
         {
             _logger = logger;
             _healthFacilityRepository = repositoryFactory.CreateHealthFacilityRepository();
+            _healthFacilityPatientRepository = repositoryFactory.CreateHealthFacilityPatientRepository();
         }
 
         public void Add(HealthFacility healthFacility)
@@ -25,7 +26,7 @@ namespace ZPMini.Logic
 
         public HealthFacility GetHealthFacility(Guid facilityId)
         {
-            return _healthFacilityRepository.Get(facilityId);
+            return _healthFacilityRepository.GetWithProperties(facilityId);
         }
 
         public void DeleteHealthFacility(Guid facilityId)
@@ -40,16 +41,26 @@ namespace ZPMini.Logic
 
         public bool AssignPatient(Patient patient, Guid facilityId)
         {
-            HealthFacility facility =  _healthFacilityRepository.Get(facilityId);
+            HealthFacility facility =  _healthFacilityRepository.GetWithProperties(facilityId);
             if(facility != null)
             {
-                if(facility.Patients == null)
-                    facility.Patients = new List<Patient>();
-                facility.Patients.Add(patient);
-                _healthFacilityRepository.Update(facility);
+                HealthFacilityPatient hfpatient = new()
+                {
+                    FacilityId = facilityId,
+                    HealthFacility = facility,
+                    Patient = patient,
+                    PatientId = patient.Id
+                };
+
+                _healthFacilityPatientRepository.Add(hfpatient);
                 return true;
             }
             return false;
+        }
+        
+        public bool Exists(Guid facilityId)
+        {
+            return _healthFacilityRepository.Exists(facilityId);
         }
     }
 }

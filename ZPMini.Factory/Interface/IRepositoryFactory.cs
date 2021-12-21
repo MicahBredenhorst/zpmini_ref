@@ -10,5 +10,6 @@ namespace ZPMini.Factory.Interface
         public IOwnershipRepository CreateOwnershipRepository();
         public IOwnershipRequestRepository CreateOwnershipRequestRepository();
         public IHealthFacilityRepository CreateHealthFacilityRepository();
+        public IHealthFacilityPatientRepository CreateHealthFacilityPatientRepository();
     }
 }

@@ -26,7 +26,6 @@ namespace ZPMini.API.Controllers
         [HttpGet("/facility/{facilityId}")]
         public ActionResult<HealthFacility> Get([GuidNotEmpty] Guid facilityId)
         {
-
             _logger.LogInformation($"[Get] Information has been requested for facility: {facilityId}");
             var facility = _facilityLogic.GetHealthFacility(facilityId);
             if (facility != null)
@@ -43,20 +42,20 @@ namespace ZPMini.API.Controllers
         }
 
         [HttpDelete("/facility/{facilityId}")]
-        public StatusCodeResult Delete([GuidNotEmpty] Guid facilityId)
+        public ActionResult Delete([GuidNotEmpty] Guid facilityId)
         {
-            if(_facilityLogic.GetHealthFacility(facilityId) != null)
+            if(_facilityLogic.Exists(facilityId))
             {
                 _facilityLogic.DeleteHealthFacility(facilityId);
                 _logger.LogInformation($"[Delete] A request to delete facility: {facilityId} has been made");
                 return StatusCode(200);
             }
             _logger.LogInformation($"[Delete] Invalid delete request for facility has been made");
-            return StatusCode(400);
+            return StatusCode(400, "facility could not be deleted");
         }
 
         [HttpPost("/facility/")]
-        public StatusCodeResult Post(FacilityViewModel model)
+        public ActionResult Post(FacilityViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -71,7 +70,7 @@ namespace ZPMini.API.Controllers
                 return StatusCode(200);
             }
             _logger.LogInformation($"[POST] An invalid facility was received");
-            return StatusCode(400);
+            return StatusCode(400, "An invalid facility was posted");
         }
     }
 }

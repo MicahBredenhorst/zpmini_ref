@@ -62,6 +62,11 @@ namespace ZPMini.Data.MockRepository
             throw new NotImplementedException();
         }
 
+        public bool Exists(Guid parientId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Patient Get(Guid id)
         {
             return mockPatientData.Where(p => p.Id == id).FirstOrDefault();

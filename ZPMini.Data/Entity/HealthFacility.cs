@@ -8,7 +8,7 @@ namespace ZPMini.Data.Entity
         public string FacilityAddress { get; set; }
         public virtual ICollection<InformationOwnership> InformationOwnership { get; set; }
         public virtual ICollection<InformationOwnershipRequest> InformationOwnershipRequests { get; set; }
-        public virtual ICollection<Patient> Patients { get; set; }
+        public virtual ICollection<HealthFacilityPatient> HealthFacilityPatients { get; set; }
 
     }
 }

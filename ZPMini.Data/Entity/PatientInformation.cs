@@ -14,12 +14,8 @@ namespace ZPMini.Data.Entity
         [StringLength(1000)]
         public string Description { get; set; }
         public DateTime CreationDate { get; set; }
-        
+        [Required]
         public Guid PatientId { get; set; }
-
-        [ForeignKey(nameof(PatientId))]
-        public virtual Patient Patient { get; set; }
-
-        public virtual ICollection<HealthFacility> HealthFacility { get; set; }
+        public virtual ICollection<InformationOwnership> InformationOwnerships { get; set; }
     }
 }

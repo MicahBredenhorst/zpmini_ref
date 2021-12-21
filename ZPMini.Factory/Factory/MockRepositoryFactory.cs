@@ -30,5 +30,10 @@ namespace ZPMini.Factory.Factory
         {
             return new MockHealthFacilityRepository();
         }
+
+        public IHealthFacilityPatientRepository CreateHealthFacilityPatientRepository()
+        {
+            return new MockHealthFacilityPatientRepository();
+        }
     }
 }

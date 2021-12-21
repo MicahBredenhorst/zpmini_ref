@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using ZPMini.Data.Entity;
-
+using ZPMini.Data.Interface;
+using ZPMini.Factory.Interface;
 
 namespace ZPMini.Logic
 {
@@ -11,15 +12,18 @@ namespace ZPMini.Logic
         private readonly PatientLogic _patientLogic;
         private readonly InformationOwnershipLogic _informationOwnershipLogic;
         private readonly FacilityLogic _facilityLogic;
+        private readonly IHealthFacilityPatientRepository _healthFacilityPatientRepository;
 
         public TransferLogic(PatientLogic patientLogic, 
             InformationOwnershipLogic informationOwnershipLogic, 
-            FacilityLogic facilityLogic, ILogger<TransferLogic> logger)
+            FacilityLogic facilityLogic, ILogger<TransferLogic> logger,
+            IRepositoryFactory repositoryFactory)
         {
             _patientLogic = patientLogic;
             _informationOwnershipLogic = informationOwnershipLogic;
             _facilityLogic = facilityLogic; 
             _logger = logger;
+            _healthFacilityPatientRepository = repositoryFactory.CreateHealthFacilityPatientRepository();
         }
 
         public bool TransferPatient(Guid patientId, Guid receivingFacilityId)
@@ -29,7 +33,13 @@ namespace ZPMini.Logic
             if(patient != null && healthFacility != null)
             {
                 _logger.LogInformation($"[TransferPatient] A transfer request for patient: {patient.LastName} to facility: {healthFacility.FacilityName} has been made");
-                healthFacility.Patients.Add(patient);
+
+                var hfPatient = new HealthFacilityPatient()
+                {
+                    PatientId = patientId,
+                    FacilityId = healthFacility.Id
+                };
+                _healthFacilityPatientRepository.Add(hfPatient);
                 return true;
             }
             return false;

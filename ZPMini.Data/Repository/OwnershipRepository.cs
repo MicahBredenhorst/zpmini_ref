@@ -18,5 +18,11 @@ namespace ZPMini.Data.Repository
         {
             return _context.InformationOwnerships.Where(i => i.InformationId == informationId && i.OwnerId == facilityId).FirstOrDefault();
         }
+
+        public bool Exists(Guid informationOwnershipId)
+        {
+            //return _context.InformationOwnerships.Any(i => i.Id == informationOwnershipId);
+            return false;
+        }
     }
 }

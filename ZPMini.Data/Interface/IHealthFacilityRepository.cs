@@ -8,5 +8,6 @@ namespace ZPMini.Data.Interface
     {
         public HealthFacility GetWithProperties(Guid facilityId);
         public IEnumerable<HealthFacility> GetAllWithProperties();
+        public bool Exists(Guid facilityId);
     }
 }

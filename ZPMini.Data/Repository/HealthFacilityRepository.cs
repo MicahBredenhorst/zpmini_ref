@@ -18,20 +18,18 @@ namespace ZPMini.Data.Repository
 
         public HealthFacility GetWithProperties(Guid facilityId)
         {
-            IEnumerable<Guid> informationOwnerships = _context.InformationOwnerships
-                .Where(i => i.OwnerId == facilityId).Select(i => i.Id);
-
-            return _context.HealthFacilities
-                .Where(h => h.Id == facilityId)
-                .Include(h => h.Patients).ThenInclude(p => p.PatientInformation).Where(i => informationOwnerships.Contains(i.Id) == true)
-                .Include(h => h.InformationOwnership).FirstOrDefault();
+            List<Guid> infoOwnerships = _context.InformationOwnerships.Where(i => i.OwnerId == facilityId).Select(i => i.InformationId).ToList();
+            return _context.HealthFacilities.Where(hf => hf.Id == facilityId).Include(hf => hf.HealthFacilityPatients).ThenInclude(hfp => hfp.Patient).Include(hf => hf.InformationOwnership).ThenInclude(io => io.PatientInformation).FirstOrDefault();
         }
 
         public IEnumerable<HealthFacility> GetAllWithProperties()
         {
-            return _context.HealthFacilities
-                .Include(h => h.Patients)
-                .Include(h => h.InformationOwnership);
+            return _context.HealthFacilities.Include(h => h.HealthFacilityPatients).Include(h => h.InformationOwnership);
+        }
+
+        public bool Exists(Guid facilityId)
+        {
+            return _context.HealthFacilities.Any(h => h.Id == facilityId);
         }
     }
 }

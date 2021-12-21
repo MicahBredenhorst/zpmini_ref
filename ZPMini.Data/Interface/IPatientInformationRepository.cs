@@ -7,6 +7,7 @@ namespace ZPMini.Data.Interface
 {
     public interface IPatientInformationRepository : IRepository<PatientInformation>
     {
-        public IEnumerable<Patient> GetAllByPatientId(Guid patientId); 
+        public IEnumerable<Patient> GetAllByPatientId(Guid patientId);
+        public bool Exists(Guid patientInformationId);
     }
 }

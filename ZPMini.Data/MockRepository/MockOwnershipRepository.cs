@@ -46,5 +46,10 @@ namespace ZPMini.Data.MockRepository
         {
             throw new NotImplementedException();
         }
+
+        public bool Exists(Guid informationId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

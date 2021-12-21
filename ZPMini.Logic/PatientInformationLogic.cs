@@ -29,5 +29,10 @@ namespace ZPMini.Logic
         {
             _patientInformationRepository.Add(patientInformation);
         }
+
+        public bool Exists(Guid patientInformationId)
+        {
+            return _patientInformationRepository.Exists(patientInformationId);
+        }
     }
 }

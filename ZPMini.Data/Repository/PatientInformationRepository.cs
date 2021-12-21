@@ -18,5 +18,10 @@ namespace ZPMini.Data.Repository
         {
             return _context.Patients.Where(p => p.Id == patientId);
         }
+
+        public bool Exists(Guid patientInformaitonId)
+        {
+            return _context.PatientInformation.Any(p => p.Id == patientInformaitonId);
+        }
     }
 }

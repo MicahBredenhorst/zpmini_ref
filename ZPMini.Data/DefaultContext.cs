@@ -19,17 +19,22 @@ namespace ZPMini.Data
         public DbSet<InformationOwnershipRequest> InformationOwnershipRequests { get; set; }
         public DbSet<PatientInformation> PatientInformation { get; set; }
         public DbSet<HealthFacility> HealthFacilities { get; set; }
+        public DbSet<HealthFacilityPatient> HealthFacilityPatients { get; set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<PatientInformation>(entity => 
+            modelBuilder.Entity<HealthFacilityPatient>(entity => 
             {
-                entity.HasOne(d => d.Patient).WithMany(p => p.PatientInformation).HasForeignKey(p => p.PatientId);
+                entity.HasKey(hp => new { hp.PatientId, hp.FacilityId });
+                entity.HasOne(hp => hp.HealthFacility).WithMany(hf => hf.HealthFacilityPatients).HasForeignKey(hp => hp.FacilityId);
+                entity.HasOne(hp => hp.Patient).WithMany(p => p.HealthFacilityPatients).HasForeignKey(hp => hp.PatientId);
             });
 
             modelBuilder.Entity<InformationOwnership>(entity =>
             {
-                entity.HasOne(d => d.HealthFacility).WithMany(p => p.InformationOwnership).HasForeignKey(p => p.OwnerId);
+                entity.HasKey(io => new { io.OwnerId, io.InformationId });
+                entity.HasOne(io => io.HealthFacility).WithMany(hf => hf.InformationOwnership).HasForeignKey(io => io.OwnerId);
+                entity.HasOne(io => io.PatientInformation).WithMany(pi => pi.InformationOwnerships).HasForeignKey(io => io.InformationId);
             });
 
             modelBuilder.Entity<InformationOwnershipRequest>(entity =>
