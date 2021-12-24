@@ -6,6 +6,7 @@ using ZPMini.Data.Entity;
 using ZPMini.Logic;
 using System;
 using ZPMini.API.DataAnnotation;
+using AutoMapper;
 
 namespace ZPMini.API.Controllers
 {
@@ -14,13 +15,19 @@ namespace ZPMini.API.Controllers
     public class PatientController : ControllerBase
     {
         private readonly ILogger<PatientController> _logger;
+        private readonly IMapper _mapper;
         private readonly PatientLogic _patientLogic;
         private readonly TransferLogic _transferLogic;
         private readonly FacilityLogic _facilityLogic;
 
-        public PatientController(ILogger<PatientController> logger, PatientLogic patientLogic, TransferLogic transferLogic, FacilityLogic facilityLogic)
+        public PatientController(ILogger<PatientController> logger, 
+            PatientLogic patientLogic, 
+            TransferLogic transferLogic, 
+            FacilityLogic facilityLogic,
+            IMapper mapper)
         {
             _logger = logger;
+            _mapper = mapper;
             _patientLogic = patientLogic;
             _transferLogic = transferLogic;
             _facilityLogic = facilityLogic;
@@ -31,14 +38,7 @@ namespace ZPMini.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                Patient patient = new()
-                {
-                    Id = Guid.NewGuid(),
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    DateOfBrith = model.DateOfBrith
-                };
-
+                Patient patient = _mapper.Map<Patient>(model);
                 _patientLogic.AddPatient(patient);
                 _logger.LogInformation($"[POST] A patient with id {patient.Id} has been added.");
                 return StatusCode(200);

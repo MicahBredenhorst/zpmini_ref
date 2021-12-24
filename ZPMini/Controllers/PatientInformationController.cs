@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -18,22 +19,24 @@ namespace ZPMini.API.Controllers
         private readonly ILogger<PatientInformationController> _logger;
         private readonly PatientInformationLogic _patientInformationLogic;
         private readonly FacilityLogic _facilityLogic;
+        private readonly IMapper _mapper;
 
         public PatientInformationController(ILogger<PatientInformationController> logger, 
             InformationOwnershipLogic informationOwnershipLogic, 
             FacilityLogic facilityLogic,
-            PatientInformationLogic patientInformationLogic)
+            PatientInformationLogic patientInformationLogic,
+            IMapper mapper)
         {
             _informationOwnershipLogic = informationOwnershipLogic;
             _patientInformationLogic = patientInformationLogic;
             _facilityLogic = facilityLogic;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet("/patientinformation/{patientInformationId}")]
         public ActionResult<PatientInformation> Get([GuidNotEmpty]Guid patientInformationId)
         {
-
             PatientInformation information = _patientInformationLogic.GetById(patientInformationId);
             if (information != null)
             {
@@ -49,14 +52,7 @@ namespace ZPMini.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                PatientInformation patientInformation = new()
-                {
-                    Id = Guid.NewGuid(),
-                    CreationDate = DateTime.Now,
-                    Description = model.Description,
-                    Title = model.Title,
-                    PatientId = model.PatientId,
-                };
+                PatientInformation patientInformation = _mapper.Map<PatientInformation>(model);
                 _patientInformationLogic.Add(patientInformation);
 
                 if (model.FacilityId != Guid.Empty && _facilityLogic.Exists(model.FacilityId))

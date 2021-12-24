@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,15 @@ namespace ZPMini.API.Controllers
     {
         private readonly FacilityLogic _facilityLogic;
         private readonly ILogger<FacilityController> _logger;
+        private readonly IMapper _mapper;
 
-        public FacilityController(FacilityLogic facilityLogic, ILogger<FacilityController> logger)
+        public FacilityController(FacilityLogic facilityLogic, 
+            ILogger<FacilityController> logger,
+            IMapper mapper)
         {
             _facilityLogic = facilityLogic;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet("/facility/{facilityId}")]
@@ -59,12 +64,7 @@ namespace ZPMini.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                HealthFacility facility = new()
-                {
-                    Id = Guid.NewGuid(),
-                    FacilityAddress = model.FacilityAddress,
-                    FacilityName = model.FacilityName
-                };
+                HealthFacility facility = _mapper.Map<HealthFacility>(model);
                 _facilityLogic.Add(facility);
                 _logger.LogInformation($"[POST] A new facility has been made for: {facility.FacilityName}");
                 return StatusCode(200);
