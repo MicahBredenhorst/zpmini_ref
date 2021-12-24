@@ -39,6 +39,7 @@ namespace ZPMini.Logic
                     PatientId = patientId,
                     FacilityId = healthFacility.Id
                 };
+
                 _healthFacilityPatientRepository.Add(hfPatient);
                 return true;
             }

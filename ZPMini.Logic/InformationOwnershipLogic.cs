@@ -10,15 +10,10 @@ namespace ZPMini.Logic
     {
         private readonly IOwnershipRepository _ownershipRepository;
         private readonly IOwnershipRequestRepository _ownershipRequestRepository;
-        private readonly IHealthFacilityRepository _healthFacilityRepository;
-        private readonly IPatientInformationRepository _patientInformationRepository;
         public InformationOwnershipLogic(IRepositoryFactory repositoryFactory)
         {
             _ownershipRepository = repositoryFactory.CreateOwnershipRepository();
             _ownershipRequestRepository = repositoryFactory.CreateOwnershipRequestRepository();
-
-            _healthFacilityRepository = repositoryFactory.CreateHealthFacilityRepository();
-            _patientInformationRepository = repositoryFactory.CreatePatientInformationRepository();
         }
 
         public InformationOwnershipRequest GetOwnershipRequest(Guid requestId)
@@ -38,7 +33,6 @@ namespace ZPMini.Logic
 
         public void AddOwnership(Guid facilityId, Guid informationId)
         {
-            
             _ownershipRepository.Add(new InformationOwnership 
             {
                 InformationId = informationId,
