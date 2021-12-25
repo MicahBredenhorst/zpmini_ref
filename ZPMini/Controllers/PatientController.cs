@@ -57,7 +57,7 @@ namespace ZPMini.API.Controllers
                 return patient;
             }
             _logger.LogInformation($"[GET] An unknown patient was requesteds");
-            return StatusCode(404, "Patient not found");
+            return StatusCode(400, "test");
         }
 
         [HttpGet("/patient/all")]
