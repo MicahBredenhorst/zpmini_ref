@@ -18,10 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZPMini.Logic", "ZPMini.Logi
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{83A659A5-E48F-441C-95F6-C0677E796758}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZPMini.Test", "..\ZPMini.Test\ZPMini.Test.csproj", "{0F42A960-2586-4F2D-A059-154A79A81203}"
-	ProjectSection(ProjectDependencies) = postProject
-		{0E99EC4E-85AD-4660-998A-10EABACA7285} = {0E99EC4E-85AD-4660-998A-10EABACA7285}
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZPMini.Test", "ZPMini.Test\ZPMini.Test.csproj", "{00FD03FB-1874-454D-BF57-08FBC66A8B0A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,10 +46,10 @@ Global
 		{83A659A5-E48F-441C-95F6-C0677E796758}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83A659A5-E48F-441C-95F6-C0677E796758}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83A659A5-E48F-441C-95F6-C0677E796758}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0F42A960-2586-4F2D-A059-154A79A81203}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0F42A960-2586-4F2D-A059-154A79A81203}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0F42A960-2586-4F2D-A059-154A79A81203}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0F42A960-2586-4F2D-A059-154A79A81203}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00FD03FB-1874-454D-BF57-08FBC66A8B0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00FD03FB-1874-454D-BF57-08FBC66A8B0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00FD03FB-1874-454D-BF57-08FBC66A8B0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00FD03FB-1874-454D-BF57-08FBC66A8B0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
