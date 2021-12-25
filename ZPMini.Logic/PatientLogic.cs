@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using ZPMini.Data.Entity;
 using ZPMini.Data.Interface;
 using ZPMini.Factory.Interface;
+using ZPMini.Logic.Interface;
 
 namespace ZPMini.Logic
 {
-    public class PatientLogic
+    public class PatientLogic : IPatientLogic
     {
         private readonly IPatientRepository _patientRepository;
-        private readonly IHealthFacilityPatientRepository _healthFacilityPatientRepository;
 
         public PatientLogic(IRepositoryFactory repositoryFactory)
         {
             _patientRepository = repositoryFactory.CreatePatientRepository();
-            _healthFacilityPatientRepository = repositoryFactory.CreateHealthFacilityPatientRepository();
         }
 
         public IEnumerable<Patient> GetAll()

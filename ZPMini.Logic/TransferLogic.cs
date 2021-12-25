@@ -3,20 +3,21 @@ using System;
 using ZPMini.Data.Entity;
 using ZPMini.Data.Interface;
 using ZPMini.Factory.Interface;
+using ZPMini.Logic.Interface;
 
 namespace ZPMini.Logic
 {
-    public class TransferLogic
+    public class TransferLogic : ITransferLogic
     {
-        private readonly ILogger<TransferLogic> _logger;
-        private readonly PatientLogic _patientLogic;
-        private readonly InformationOwnershipLogic _informationOwnershipLogic;
-        private readonly FacilityLogic _facilityLogic;
+        private readonly ILogger<ITransferLogic> _logger;
+        private readonly IPatientLogic _patientLogic;
+        private readonly IInformationOwnershipLogic _informationOwnershipLogic;
+        private readonly IFacilityLogic _facilityLogic;
         private readonly IHealthFacilityPatientRepository _healthFacilityPatientRepository;
 
-        public TransferLogic(PatientLogic patientLogic, 
-            InformationOwnershipLogic informationOwnershipLogic, 
-            FacilityLogic facilityLogic, ILogger<TransferLogic> logger,
+        public TransferLogic(IPatientLogic patientLogic, 
+            IInformationOwnershipLogic informationOwnershipLogic, 
+            IFacilityLogic facilityLogic, ILogger<ITransferLogic> logger,
             IRepositoryFactory repositoryFactory)
         {
             _patientLogic = patientLogic;

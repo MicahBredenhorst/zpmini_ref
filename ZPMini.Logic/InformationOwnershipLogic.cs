@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using ZPMini.Data.Entity;
 using ZPMini.Data.Interface;
 using ZPMini.Factory.Interface;
+using ZPMini.Logic.Interface;
 
 namespace ZPMini.Logic
 {
-    public class InformationOwnershipLogic
+    public class InformationOwnershipLogic : IInformationOwnershipLogic
     {
         private readonly IOwnershipRepository _ownershipRepository;
         private readonly IOwnershipRequestRepository _ownershipRequestRepository;

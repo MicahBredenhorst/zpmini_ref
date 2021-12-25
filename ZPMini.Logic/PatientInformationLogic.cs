@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using ZPMini.Data.Entity;
 using ZPMini.Data.Interface;
 using ZPMini.Factory.Interface;
+using ZPMini.Logic.Interface;
 
 namespace ZPMini.Logic
 {
-    public class PatientInformationLogic
+    public class PatientInformationLogic : IPatientInformationLogic
     {
         private readonly IPatientInformationRepository _patientInformationRepository;
         public PatientInformationLogic(IRepositoryFactory repositoryFactory)

@@ -8,6 +8,7 @@ using ZPMini.API.DataAnnotation;
 using ZPMini.API.ViewModel;
 using ZPMini.Data.Entity;
 using ZPMini.Logic;
+using ZPMini.Logic.Interface;
 
 namespace ZPMini.API.Controllers
 {
@@ -15,11 +16,11 @@ namespace ZPMini.API.Controllers
     [Route("[controller]/[action]")]
     public class FacilityController : ControllerBase
     {
-        private readonly FacilityLogic _facilityLogic;
+        private readonly IFacilityLogic _facilityLogic;
         private readonly ILogger<FacilityController> _logger;
         private readonly IMapper _mapper;
 
-        public FacilityController(FacilityLogic facilityLogic, 
+        public FacilityController(IFacilityLogic facilityLogic, 
             ILogger<FacilityController> logger,
             IMapper mapper)
         {

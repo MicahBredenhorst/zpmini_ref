@@ -12,6 +12,7 @@ using ZPMini.Data;
 using ZPMini.Factory.Factory;
 using ZPMini.Factory.Interface;
 using ZPMini.Logic;
+using ZPMini.Logic.Interface;
 
 namespace ZPMini
 {
@@ -46,11 +47,11 @@ namespace ZPMini
                 services.AddTransient<IRepositoryFactory, RepositoryFactory>();
             }
 
-            services.AddTransient<PatientLogic>();
-            services.AddTransient<FacilityLogic>();
-            services.AddTransient<InformationOwnershipLogic>();
-            services.AddTransient<PatientInformationLogic>();
-            services.AddTransient<TransferLogic>();
+            services.AddTransient<IPatientLogic, PatientLogic>();
+            services.AddTransient<IFacilityLogic, FacilityLogic>();
+            services.AddTransient<IInformationOwnershipLogic, InformationOwnershipLogic>();
+            services.AddTransient<IPatientInformationLogic, PatientInformationLogic>();
+            services.AddTransient<ITransferLogic, TransferLogic>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -73,11 +74,8 @@ namespace ZPMini
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

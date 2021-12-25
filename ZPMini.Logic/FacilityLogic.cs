@@ -6,17 +6,17 @@ using ZPMini.API;
 using ZPMini.Data.Entity;
 using ZPMini.Data.Interface;
 using ZPMini.Factory.Interface;
-
+using ZPMini.Logic.Interface;
 
 namespace ZPMini.Logic
 {
-    public class FacilityLogic
+    public class FacilityLogic : IFacilityLogic
     {
-        private readonly ILogger<FacilityLogic> _logger;
+        private readonly ILogger<IFacilityLogic> _logger;
         private readonly IHealthFacilityRepository _healthFacilityRepository;
         private readonly IHealthFacilityPatientRepository _healthFacilityPatientRepository;
         private readonly IMapper _mapper;
-        public FacilityLogic(ILogger<FacilityLogic> logger, 
+        public FacilityLogic(ILogger<IFacilityLogic> logger, 
             IRepositoryFactory repositoryFactory,
             IMapper mapper)
         {

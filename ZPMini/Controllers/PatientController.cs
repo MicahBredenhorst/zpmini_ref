@@ -7,6 +7,7 @@ using ZPMini.Logic;
 using System;
 using ZPMini.API.DataAnnotation;
 using AutoMapper;
+using ZPMini.Logic.Interface;
 
 namespace ZPMini.API.Controllers
 {
@@ -16,14 +17,14 @@ namespace ZPMini.API.Controllers
     {
         private readonly ILogger<PatientController> _logger;
         private readonly IMapper _mapper;
-        private readonly PatientLogic _patientLogic;
-        private readonly TransferLogic _transferLogic;
-        private readonly FacilityLogic _facilityLogic;
+        private readonly IPatientLogic _patientLogic;
+        private readonly ITransferLogic _transferLogic;
+        private readonly IFacilityLogic _facilityLogic;
 
         public PatientController(ILogger<PatientController> logger, 
-            PatientLogic patientLogic, 
-            TransferLogic transferLogic, 
-            FacilityLogic facilityLogic,
+            IPatientLogic patientLogic, 
+            ITransferLogic transferLogic, 
+            IFacilityLogic facilityLogic,
             IMapper mapper)
         {
             _logger = logger;

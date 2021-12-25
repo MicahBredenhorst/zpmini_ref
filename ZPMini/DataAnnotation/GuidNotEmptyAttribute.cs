@@ -12,9 +12,7 @@ namespace ZPMini.API.DataAnnotation
         public override bool IsValid(object value)
         {
             if((Guid)value != Guid.Empty)
-            {
                 return true;
-            }
             return false;
         }
     }

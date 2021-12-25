@@ -7,7 +7,7 @@ using System.Linq;
 using ZPMini.API.DataAnnotation;
 using ZPMini.API.ViewModel;
 using ZPMini.Data.Entity;
-using ZPMini.Logic;
+using ZPMini.Logic.Interface;
 
 namespace ZPMini.API.Controllers
 {
@@ -15,16 +15,16 @@ namespace ZPMini.API.Controllers
     [Route("[controller]/[action]")]
     public class PatientInformationController : ControllerBase
     {
-        private readonly InformationOwnershipLogic _informationOwnershipLogic;
+        private readonly IInformationOwnershipLogic _informationOwnershipLogic;
         private readonly ILogger<PatientInformationController> _logger;
-        private readonly PatientInformationLogic _patientInformationLogic;
-        private readonly FacilityLogic _facilityLogic;
+        private readonly IPatientInformationLogic _patientInformationLogic;
+        private readonly IFacilityLogic _facilityLogic;
         private readonly IMapper _mapper;
 
         public PatientInformationController(ILogger<PatientInformationController> logger, 
-            InformationOwnershipLogic informationOwnershipLogic, 
-            FacilityLogic facilityLogic,
-            PatientInformationLogic patientInformationLogic,
+            IInformationOwnershipLogic informationOwnershipLogic, 
+            IFacilityLogic facilityLogic,
+            IPatientInformationLogic patientInformationLogic,
             IMapper mapper)
         {
             _informationOwnershipLogic = informationOwnershipLogic;
